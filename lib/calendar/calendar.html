@@ -1,0 +1,538 @@
+<!doctype html>
+<html>
+<head>
+<title>calendar</title>
+<meta name="author" content="yangzhifang_gz" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>!function(e,t){function n(){var n=r.getBoundingClientRect().width;t||(t=540),n>t&&(n=t);var i=100*n/e+"px";r.style.fontSize=i,s.innerHTML="html{font-size:"+i+"!important}"}var i,o=document,d=window,r=o.documentElement,s=o.createElement("style");r.firstElementChild.insertBefore(s,r.firstElementChild.firstElementChild),n(),d.addEventListener("resize",function(){clearTimeout(i),i=setTimeout(n,300)},!1),d.addEventListener("pageshow",function(e){e.persisted&&(clearTimeout(i),i=setTimeout(n,300))},!1),"complete"===o.readyState?o.body.style.fontSize="16px":o.addEventListener("DOMContentLoaded",function(){o.body.style.fontSize="16px"},!1)}(640,750);</script>
+<link rel="stylesheet" type="text/css" href="css/swiper.min.css" />
+<style>
+@charset "UTF-8";
+/*reset*/
+body,dl,dd,ul,ol,h1,h2,h3,h4,h5,h6,pre,form,input,textarea,p,hr,thead,tbody,tfoot,th,td{margin:0;padding:0;}
+ul,ol{list-style:none;}
+a{text-decoration:none;color:#333;}
+a:visited{color:#333;}
+html{-ms-text-size-adjust:none;-webkit-text-size-adjust:none;text-size-adjust:none;}
+body{font-size:14px; line-height:1.5;background-color:#fff;color:#333;}
+body,button,input,select,textarea{font-family:'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;}
+b,strong{font-weight:bold;}
+i,em{font-style:normal;}
+table{border-collapse:collapse;border-spacing:0;}
+table th,table td{border:1px solid #eee;padding:5px;}
+table th{font-weight:inherit;border-bottom-width:2px;border-bottom-color:#ccc;}
+img{border:0 none;width:auto\9;max-width:100%;vertical-align:top;}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;vertical-align:baseline;}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer;}
+button[disabled],input[disabled],a[disabled]{cursor:default;pointer-events:none;}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
+input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;}
+@media screen and (-webkit-min-device-pixel-ratio:0){input{line-height:normal!important;}
+}
+select[size],select[multiple],select[size][multiple]{border:1px solid #AAA;padding:0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}
+audio,canvas,video,progress{display:inline-block;}
+button {padding:0; border:none; outline:none; background:none;}
+html, body {position: relative; height: 100%; }
+.g-doc{margin:0 auto;overflow:hidden;max-width:750px;}
+
+.s-dn{display:none;}
+.overlay{position: fixed; width:100%; height:100%; background:rgba(0,0,0,.5); top:0; left:0; z-index:0}
+
+/*calendar*/
+.m-calendar-wrap{ position: fixed; width: 100%; height: 160px; bottom: 0; left: 0; z-index:99; background-color:#fff;}
+.m-calendar-wrap .btn-wrap{height:40px; line-height:40px; position: absolute; width:100%; left:0; top:0; overflow:hidden; border-bottom:1px solid #eee; font-size:16px;}
+.m-calendar-wrap .btn-wrap a{width:46%; text-align:center;}
+.m-calendar-wrap .btn-cancel{margin-left:12px; float:left; border-right:1px solid #ddd;}
+.m-calendar-wrap .btn-confirm{float:right; margin-right:10px;}
+
+.m-calendar{margin-top:40px; font-size:14px; overflow:hidden; position: relative; z-index:99;}
+.m-calendar .m-calendar-item{float:left; height:120px; width:33.33%; position:relative;}
+.m-calendar-item ul{text-align:center;}
+.m-calendar-item li{height:40px; line-height:40px; font-size:16px;}
+
+.m-calendar-wrap .bd{position:absolute; width:100%; top:40px; z-index:0;}
+.m-calendar-wrap .bd li{height:40px; line-height:40px;}
+.m-calendar-wrap .bd li:not(:last-child){border-bottom:1px solid #eee;}
+</style>
+</head>
+
+<body>
+<!-- 栏目计数器 -->
+<script>
+// window._common_counter_code_ = "channel=9999";
+// window._common_counter_uuid_ = "";
+// window._common_counter_from_ = "";
+// <!--#include virtual="/global_ssi/pcauto/count/index.html"-->
+</script>
+
+<!--g-doc S-->
+<div class="g-doc">
+	<input type="text" name="date" id="date" readonly="true"/>	
+</div>
+<!--g-doc E-->
+
+<!--日历弹窗 S-->
+<div class="overlay s-dn" id="Joverlay"></div>
+<div class="m-calendar-wrap s-dn"  id="Jcalendar">
+	<div class="btn-wrap">
+		<a class="btn-cancel">取消</a>
+		<a class="btn-confirm">确定</a>
+	</div>
+	<div class="m-calendar">
+		<!-- 年份 -->
+		<div class="m-calendar-item year">
+			<div class="yealSel"><ul></ul></div>
+		</div>
+
+		<!-- 月份 -->
+		<div class="m-calendar-item month">
+			<div class="monthSel"><ul></ul></div>
+		</div>
+
+		<!-- 日期 -->
+		<div class="m-calendar-item day">
+			<div class="daySel"><ul></ul></div>
+		</div>
+	</div>
+	<div class="bd">
+		<ul>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ul>
+	</div>
+</div>
+<!--日历弹窗 E-->
+
+<!--js-->
+<script src="js/iscroll_v5.js"></script>
+<script>
+/**
+ * 日历控件
+ * @param input对象
+ * @param {object} config 日历配置
+ */
+;function Calendar(target,config){
+	if(!target){ return; }
+	var yealSel = target.querySelector(".year"),
+		monthSel = target.querySelector(".month"),
+		daySel = target.querySelector(".day"),
+		btnCancel = target.querySelector(".btn-cancel"),
+		btnComfrim = target.querySelector(".btn-confirm");
+
+	var date = document.getElementById("date"),	
+		overlay = document.getElementById("Joverlay");
+
+	var initConfig = {
+		JyearSel: yealSel, //年份对象
+		JmonthSel: monthSel, //月份对象
+		JdaySel: daySel, //日期对象
+		inputObj: date,
+		btnCancel: btnCancel,
+		btnComfrim: btnComfrim,
+		overlay: overlay,		
+		dateDefault: "1992/6/6",//默认日期
+		startYear: "1966", //开始年份
+		endYear: "1992", //结束年份
+		indexY: 1, //默认
+		indexM: 1, //默认
+		indexD: 1 //默认
+	};
+
+	config = config || {};
+	this.config = this.extend(config,initConfig, false);
+	this.target = target;
+	this.init();
+};
+
+Calendar.prototype  = {
+	/*判断是否存在class*/
+	hasCls: function(el, cls){
+		return el.classList && el.classList.contains(cls) || !!el.className.match(new RegExp('(\\s|^)' + cls + '(\\s|$)'));
+	},
+
+	/*添加class*/
+	addCls: function(el, cls) {
+	    el.classList ? el.classList.add(cls) : !this.hasCls(el, cls) && (el.className += (!el.className ? '' : ' ') + cls);
+	},
+
+	/*移除class*/
+	rmCls: function(el, cls) {
+	    el.classList ? el.classList.remove(cls) : this.hasCls(el, cls) && (el.className = el.className.replace(new RegExp('(\\s|^)' + cls + '(\\s|$)'), ''));
+	},
+
+	/**
+	 * 判断是否平年
+	 * @param {number} year 年份
+	 */
+	IsPinYear: function(year){ 
+		return (0 == year % 4 && (year % 100 !=0 || year % 400 == 0));
+	},
+
+	/**
+	 * 获取相应li的innerHTML
+	 * @param  {object} selObj 年份/月份/日期外层
+	 * @param  {number} index  第几个li	 
+	 */
+	getSel: function(selObj,index){
+		return selObj.getElementsByTagName("li")[index].innerHTML;
+	},
+
+	/**
+	 * 获取ul对象
+	 * @param  {object} ulObj 年份/月份/日期ul	 
+	 */
+	getSelUl: function(ulObj){
+		if(!ulObj) return;
+		return ulObj.getElementsByTagName("ul")[0];
+	},
+
+	/**
+	 * 分割字符串，获取纯数字
+	 * @param  {str} str 年份/月份/日期	 
+	 */
+	subStrSel: function(str){
+		return str.substring(0, str.length - 1);
+	},
+
+	/**
+	 * 判断日期，写入日期HTML
+	 * @param  {object} _self this
+	 * @param  {number} y     年份
+	 * @param  {number} m     月份
+	 * @param  {number} d     日期	 
+	 */
+	initDay: function(_self, y, m, d){
+		if(m == 2){ //2月份
+			if(_self.IsPinYear(y)) {
+				_self.createDayHTML(_self, 28);
+			}else{
+				_self.createDayHTML(_self, 29);
+			}
+		}else if((m < 9 && m % 2 != 0 )|| (m >= 9 && m % 2 == 0 ) || m == 8){ //月大
+			_self.createDayHTML(_self, 31);
+		}else{ //月小
+			_self.createDayHTML(_self, 30);
+		}
+
+		if (typeof window.dScroll != "undefined" && window.dScrollY){
+			window.dScroll.scrollTo(0, window.dScrollY);
+		}
+	},
+
+	/**
+	 * 获取默认年份/月份/日期的位置
+	 * @param  {object} _self this
+	 * @param  {object} obj  年份/月份/日期外层对象 
+	 * @param  {string} str  默认的年份/月份/日期	 
+	 */
+	getDefIndex: function(_self, obj, str){
+		var index;
+		var lis = obj.getElementsByTagName("li");
+		for(var  i =0,len = lis.length; i < len; i++){
+			if(_self.subStrSel(lis[i].innerHTML) == _self.subStrSel(str)){
+				index = i;
+			}
+		}
+		return index;
+	},
+
+	/**
+	 * 判断天数，写入日期
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 * @param  {object} def     默认年月日	 
+	 */
+	checkDay: function(_self, _config, def){
+		var strY, strM, strD;
+		var year, month, day;
+
+		if(def){		
+			strY = def.yDefault;
+			strM = def.mDefault; 
+			strD = def.dDefault;
+
+			_config.indexY = _self.getDefIndex(_self, _config.JyearSel, strY),
+			_config.indexM = _self.getDefIndex(_self, _config.JmonthSel, strM),
+			_config.indexD = _self.getDefIndex(_self, _config.JdaySel, strD);	
+
+			window.yScroll.scrollToElement(_config.JyearSel.querySelectorAll('li')[_config.indexY - 1],0);
+			window.mScroll.scrollToElement(_config.JmonthSel.querySelectorAll('li')[_config.indexM - 1],0);
+			window.dScroll.scrollToElement(_config.JdaySel.querySelectorAll('li')[_config.indexD - 1],0);
+
+		}else{
+			strY = _self.getSel(_config.JyearSel, _config.indexY);
+			strM = _self.getSel(_config.JmonthSel, _config.indexM);
+			strD = _self.getSel(_config.JdaySel, _config.indexD);
+		}
+
+		year = _self.subStrSel(strY);
+		month = _self.subStrSel(strM);
+		day = _self.subStrSel(strD);
+
+	
+		_config.inputObj.value = strY + '-' + strM + '-' +  strD; 
+		_self.initDay(_self, year, month, day);
+	},
+
+	/**
+	 * 年份HTML
+	 * @param  {object} _self   this
+	 * @param  {object} _config config	 
+	 */
+ 	createYearHTML: function(_self, _config){
+		var yearSel = _self.getSelUl(_config.JyearSel),
+			html = "<li></li>";
+
+		var date = new Date(), y, len;	
+		if(!_config.endYear){
+			y = date.getFullYear();
+		}else{
+			y = _config.endYear;
+		}
+
+		len = (y - _config.startYear) + 1;
+
+		for(var i = 0; i < len; i++){
+			html += '<li>'+ y +'年</li>';
+			y = y - 1;
+		}
+		html += '<li></li>';
+		yearSel.innerHTML = html;
+	},
+
+	/**
+	 * 月份HTML
+	 * @param  {object} _self   this
+	 * @param  {object} _config config	 
+	 */
+	createtMonthHTML: function(_self, _config){
+		var monthObj =  _self.getSelUl(_config.JmonthSel),
+			html = "<li></li>";
+
+		for(var i = 0; i < 12; i++){
+			html += '<li>'+ (i + 1) +'月</li>';		
+		}
+		html += '<li></li>';
+		monthObj.innerHTML = html;
+	},
+
+	/**
+	 * 日期HTML
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 * @param  {number} len     天数	 
+	 */
+	createDayHTML: function(_self, _config, len){
+		if(!len){len = 31;}
+		var dayObj = _self.getSelUl(_config.JdaySel),
+			html = "<li></li>";
+
+		if(!dayObj) {return;}
+
+		for(var i = 0; i < len; i++){
+			html += '<li>'+ (i + 1) +'日</li>';
+		}
+		html += '<li></li>';		
+		dayObj.innerHTML = html;	
+		if (typeof window.dScroll != "undefined"){
+			window.dScrollY = dScroll.getComputedPosition().y;
+		}
+	},
+
+	/**
+	 * 实例化年份Iscroll
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 */
+	initScrollYear: function(_self, _config){
+		//年份iscroll
+		window.yScroll =  new IScroll(_config.JyearSel, {    	
+	        scrollX: false,
+	        snap:"li",	        
+	        scrollY: true,
+	        mouseWheel: true, // 允许鼠标滑轮滑动
+	        preventDefault: false // 不让 iScroll 阻止默认行为
+	        
+	    });
+		yScroll.on('scrollEnd', function(){
+			_config.indexY = (this.y/40)*(-1) + 1;
+		})
+	},
+
+	/**
+	 * 实例化月份Iscroll
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 */
+	initScrollMonth: function(_self, _config){
+		//月份iscroll
+		window.mScroll =  new IScroll(_config.JmonthSel, {
+	        scrollX: false,
+	        snap:"li",
+	        scrollY: true,
+	        mouseWheel: true, // 允许鼠标滑轮滑动
+	        preventDefault: false // 不让 iScroll 阻止默认行为
+	        
+	    });
+
+	    mScroll.on('scrollEnd', function(){
+			_config.indexM = (this.y/40)*(-1) + 1;
+		})
+	},
+
+	/**
+	 * 实例化日期Iscroll
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 */
+	initScrollDay: function(_self, _config){
+		//日期iscroll
+		window.dScroll =  new IScroll(_config.JdaySel, {
+	        scrollX: false,
+	        snap:"li",
+	        scrollY: true,
+	        mouseWheel: true, // 允许鼠标滑轮滑动
+	        preventDefault: false // 不让 iScroll 阻止默认行为
+	    });
+
+	    dScroll.on('scrollEnd', function(){
+			_config.indexD = (this.y/40)*(-1) + 1;	
+		})
+	},
+
+	/**
+	 * 关闭日历弹窗
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 */
+	closeCalendar: function(_self, _config){
+		_self.addCls(_self.target ,"s-dn");
+		_self.addCls(_config.overlay ,"s-dn");
+
+	},
+
+	/**
+	 * 打开日历弹窗
+	 * @param  {object} _self   this
+	 * @param  {object} _config config
+	 */
+	popCalendar: function(_self, _config){
+		_self.rmCls(_self.target,"s-dn");
+		_self.rmCls(_config.overlay ,"s-dn");
+	},
+
+	// 运行
+	init: function(){
+		var _self = this;
+		var _config = _self.config;
+		// _self.createCalender();
+
+		_self.popCalendar(_self, _config);
+
+		//html结构
+		_self.createYearHTML(_self, _config);
+		_self.createtMonthHTML(_self, _config);
+		_self.createDayHTML(_self, _config);
+
+		//初始化iscroll
+		_self.initScrollYear(_self, _config);
+		_self.initScrollMonth(_self, _config);
+		_self.initScrollDay(_self, _config);
+
+		//将日期置入input
+		if(_config.dateDefault){ //有默认日期
+			if(_config.inputObj.value != ""){ //input无值
+				var dateDefault = _config.inputObj.value;
+				var dateArr = dateDefault.split('-');
+				var def = {
+					yDefault: _self.subStrSel(dateArr[0]) + '年',
+					mDefault: _self.subStrSel(dateArr[1]) + '月',
+					dDefault: _self.subStrSel(dateArr[2]) + '日'
+				}
+				_self.checkDay(_self, _config, def);
+			}else{ //input有值
+				var dateDefault = _config.dateDefault;
+				var dateArr = dateDefault.split('/');
+				var def = {
+					yDefault: dateArr[0] + '年',
+					mDefault: dateArr[1] + '月',
+					dDefault: dateArr[2] + '日'
+				}
+				_self.checkDay(_self, _config, def);		
+			}
+			
+		}else{//无默认日期
+			if(_config.inputObj.value != ""){ //input无值
+				var dateDefault = _config.inputObj.value;
+				var dateArr = dateDefault.split('-');
+				var def = {
+					yDefault: _self.subStrSel(dateArr[0]) + '年',
+					mDefault: _self.subStrSel(dateArr[1]) + '月',
+					dDefault: _self.subStrSel(dateArr[2]) + '日'
+				}
+				_self.checkDay(_self, _config, def);
+			}else{//input有值
+				_self.checkDay(_self, _config);		
+			}
+			
+		}
+
+		//取消
+		_config.btnCancel.addEventListener("click",function(){
+			_self.closeCalendar(_self,_config);
+		});
+
+		//确定 将选定日期置入input
+		_config.btnComfrim.addEventListener("click",function(){
+			_self.checkDay(_self, _config);
+			_self.closeCalendar(_self,_config);	
+		});
+
+		//点击遮罩层关闭
+		_config.overlay.addEventListener("click",function(){
+			_self.closeCalendar(_self,_config);
+		});
+	},
+
+	// 对 json 对象进行更新扩展，会修改待更新扩展的对象，同时将其返回。
+	extend: function(destination, source, override, replacer) {
+		if (override === undefined) override = true;
+		for (var property in source) {
+			if (override || !(property in destination)) {
+				if (replacer) replacer(property);
+				else destination[property] = source[property];
+			}
+		}
+		return destination;
+	}
+};
+
+
+function getId(id){
+	return (typeof id == "object") ? id : document.getElementById(id);
+}
+
+;(function(){
+	var date = getId("date");
+	date.addEventListener("click",initCalendar);	
+
+	function initCalendar(){
+		var Jcalendar = getId("Jcalendar");		
+
+		// 实例化日历控件
+		var calendar = new Calendar(Jcalendar,{
+			// dateDefault: "1992/6/6"//默认日期
+		});
+	}
+}());
+
+</script>
+</body>
+</html>
