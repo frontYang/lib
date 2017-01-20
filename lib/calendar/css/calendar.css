@@ -1,0 +1,48 @@
+@charset "UTF-8";
+/*reset*/
+body,dl,dd,ul,ol,h1,h2,h3,h4,h5,h6,pre,form,input,textarea,p,hr,thead,tbody,tfoot,th,td{margin:0;padding:0;}
+ul,ol{list-style:none;}
+a{text-decoration:none;color:#333;}
+a:visited{color:#333;}
+html{-ms-text-size-adjust:none;-webkit-text-size-adjust:none;text-size-adjust:none;}
+body{font-size:14px; line-height:1.5;background-color:#fff;color:#333;}
+body,button,input,select,textarea{font-family:'helvetica neue',tahoma,'hiragino sans gb',stheiti,'wenquanyi micro hei',\5FAE\8F6F\96C5\9ED1,\5B8B\4F53,sans-serif;}
+b,strong{font-weight:bold;}
+i,em{font-style:normal;}
+table{border-collapse:collapse;border-spacing:0;}
+table th,table td{border:1px solid #eee;padding:5px;}
+table th{font-weight:inherit;border-bottom-width:2px;border-bottom-color:#ccc;}
+img{border:0 none;width:auto\9;max-width:100%;vertical-align:top;}
+button,input,select,textarea{font-family:inherit;font-size:100%;margin:0;vertical-align:baseline;}
+button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer;}
+button[disabled],input[disabled],a[disabled]{cursor:default;pointer-events:none;}
+input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0;}
+input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box;}
+input[type="search"]::-webkit-search-decoration{-webkit-appearance:none;}
+@media screen and (-webkit-min-device-pixel-ratio:0){input{line-height:normal!important;}
+}
+select[size],select[multiple],select[size][multiple]{border:1px solid #AAA;padding:0;}
+article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block;}
+audio,canvas,video,progress{display:inline-block;}
+button {padding:0; border:none; outline:none; background:none;}
+html, body {position: relative; height: 100%; }
+.g-doc{margin:0 auto;overflow:hidden;max-width:750px;}
+
+.s-dn{display:none;}
+.overlay{position: fixed; width:100%; height:100%; background:rgba(0,0,0,.5); top:0; left:0; z-index:0}
+
+/*calendar*/
+.m-calendar-wrap{ position: fixed; width: 100%; height: 160px; bottom: 0; left: 0; z-index:99; background-color:#fff;}
+.m-calendar-wrap .btn-wrap{height:40px; line-height:40px; position: absolute; width:100%; left:0; top:0; overflow:hidden; border-bottom:1px solid #eee; font-size:16px;}
+.m-calendar-wrap .btn-wrap a{width:46%; text-align:center;}
+.m-calendar-wrap .btn-cancel{margin-left:12px; float:left; border-right:1px solid #ddd;}
+.m-calendar-wrap .btn-confirm{float:right; margin-right:10px;}
+
+.m-calendar{margin-top:40px; font-size:14px; overflow:hidden; position: relative; z-index:99;}
+.m-calendar .m-calendar-item{float:left; height:120px; width:33.33%; position:relative;}
+.m-calendar-item ul{text-align:center;}
+.m-calendar-item li{height:40px; line-height:40px; font-size:16px;}
+
+.m-calendar-wrap .bd{position:absolute; width:100%; top:40px; z-index:0;}
+.m-calendar-wrap .bd li{height:40px; line-height:40px;}
+.m-calendar-wrap .bd li:not(:last-child){border-bottom:1px solid #eee;}
