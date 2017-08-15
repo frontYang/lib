@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>点击/滚动加载更多</title>
+</head>
+<body>
+	<ul id="JscrollMore" data-type="scroll"></ul>
+	<a id="loadBtn">加载更多</a>
+	<script src="node_modules/_mockjs@1.0.1-beta3@mockjs/dist/mock.js"></script>
+	<script src="node_modules/_jquery@1.12.4@jquery/dist/jquery.js"></script>
+	<script src="loadMore.js"></script>
+	<script>
+	// 模拟数据
+	var Random = Mock.Random;
+	Mock.mock("http://g.cn", {
+		'groups|10': [
+			{
+				'id|+45': Random.integer(0, 1000) ,
+				'url': '@url',
+				'name': Random.word(5, 10),
+				'cover': Random.image('200x100')
+			}
+		],
+		'pageNo|+1': 1,
+		'pageTotal': 10
+	});
+
+	// 初始值
+	loadMore.CONFIG = {
+		wrapId: "JscrollMore", // 外层id
+		loadId: "loadBtn", // 点击加载更多按钮id/loading文案id
+		url: "http://g.cn#pageNo={pageNo}" // 模拟数据接口
+	}
+
+	// 加载数据
+	loadMore.getData = function(pageNo){
+		$.ajax({
+	        url: loadMore.CONFIG.url.replace("{pageNo}", pageNo),
+	        type: 'GET',
+	        dataType: 'json',
+	        success: function(data) {
+	        	console.log(data)
+	            loadMore.loadData(data, function(){ // 加载中
+	            	var fragment = document.createDocumentFragment();
+	            	var len = data.groups.length;
+	            	for (var i = 0; i < len; i++) {
+	            		var cell = document.createElement('li');
+	            		cell.innerHTML = '<img src="'+ data.groups[i].cover +'" alt="">';
+	            		fragment.appendChild(cell);
+	            	}	
+	            	var scrollMoreObj = document.getElementById(loadMore.CONFIG.wrapId); // 外层
+                	scrollMoreObj.appendChild(fragment);
+	            }, function(){ // 没有更多数据了
+	            	console.log('没有更多了')
+	            });
+	        }
+	    });
+
+		var scrollMoreObj = document.getElementById(loadMore.CONFIG.wrapId); // 外层
+	    var loadType = scrollMoreObj.getAttribute("data-type"); // 加载类型，click:点击加载更多，scroll:滚动加载更多   
+        loadType == "click" && loadMore.clickMore();  // 点击加载更多
+        loadType == "scroll" && loadMore.scrollMore();   // 滚动加载更多
+	}
+
+	// 默认加载第一页
+    loadMore.getData(1);
+
+	</script>
+</body>
+</html>
