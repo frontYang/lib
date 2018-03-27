@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>图片动态加载数据分页轮播</title>
+  <style>
+    /* slidePic */
+    .slidePic{
+      /* width: 1026px; */
+      width: 724px;
+      margin: 10px auto;
+      padding: 0 40px;
+
+    }
+    .slidePic,
+    .slideInner{
+      position: relative;
+
+    }
+
+    .slideContent,
+    .slidePic{
+      overflow: hidden;
+    }
+
+    .slidePrev,
+    .slideNext{
+      width: 40px;
+      /* height: 80px; */
+      height: 59px;
+      cursor: pointer;
+      position: absolute;
+      top: 0;
+      z-index: 10;
+    }
+
+    .slidePrev{
+      /* float: left;   */
+      left: 0;
+      /*background: url(./img/slidePrev.png) no-repeat 100%;*/
+      background: blue;
+    }
+
+    .slideNext{
+      /* float: right; */
+      right: 0;
+      /*background: url(./img/slideNext.png) no-repeat 100%;*/
+      background: blue;
+    }
+
+    .slidePrev:hover{
+      /*background: url(./img/slidePrevCur.png) no-repeat 100%;*/
+      background: blue;
+    }
+
+    .slideNext:hover{
+      /*background: url(./img/slideNextCur.png) no-repeat 100%;*/
+      background: blue;
+    }
+
+    .slideInner{
+      /* width: 936px; */
+      width: 714px;
+      float: left;
+      padding: 0 5px;  
+    }
+    .slideItem {
+      float: left;  
+      width: 714px;
+      height: 80px;
+    }
+
+    .slideItem .pic,
+    .slideItem .pic img{
+      width: 79px;
+      height: 59px;
+    }
+
+    .slideItem .pic{
+      float: left;  
+      margin: 0 5px; 
+      background-color:pink;
+    }
+
+    .slideItem .current.pic,
+    .slideItem .pic:hover{
+      width: 75px;
+      height: 55px;
+      border: 2px solid #2ca2ed; 
+      overflow: hidden; 
+    }
+
+    .slideItem .current.pic img,
+    .slideItem .pic:hover img{
+      position: relative;
+      left: -2px;
+      top: -2px;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="slidePic" id="slidePic">
+    <i class="slidePrev"></i>
+    <div class="slideInner">
+      <!-- <div class="slideItem">
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+        <a href="#" class="pic"><img src="" width="107" height="80" alt=""></a>
+      </div> -->
+      <!--
+        图片动态加载，
+        每页最多8张
+      -->
+    </div>
+    <i class="slideNext"></i>
+  </div>
+  <script>
+    window.PAGE_CONFIG = {
+      picSlideIntf: './data/test.json',  //焦点小图 数据请求地址
+      pageNo: 5, // 当前页
+      pageTotal: 10, // 焦点小图 总页数
+      curIndex: 0 // 焦点小图 高亮图片索引
+    }
+  </script>
+  <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="slideUtil.js"></script>
+</body>
+</html>

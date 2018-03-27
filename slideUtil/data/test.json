@@ -1,0 +1,39 @@
+
+cb_getPicData(
+{
+  "pageNo": 1,
+  "pageTotal": 5,
+  "data": [
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  },
+  {
+    "imgUrl": "",
+    "linkUrl": "#"
+  }]
+})
