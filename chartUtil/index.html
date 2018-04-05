@@ -1,0 +1,222 @@
+<!doctype html>
+<html>
+<head>
+<title>calendar</title>
+<meta name="author" content="frontYang" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="keywords" content="">
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0,user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script>!function(e,t){function n(){var n=r.getBoundingClientRect().width;t||(t=540),n>t&&(n=t);var i=100*n/e+"px";r.style.fontSize=i,s.innerHTML="html{font-size:"+i+"!important}"}var i,o=document,d=window,r=o.documentElement,s=o.createElement("style");r.firstElementChild.insertBefore(s,r.firstElementChild.firstElementChild),n(),d.addEventListener("resize",function(){clearTimeout(i),i=setTimeout(n,300)},!1),d.addEventListener("pageshow",function(e){e.persisted&&(clearTimeout(i),i=setTimeout(n,300))},!1),"complete"===o.readyState?o.body.style.fontSize="16px":o.addEventListener("DOMContentLoaded",function(){o.body.style.fontSize="16px"},!1)}(640,750);</script>
+<link rel="stylesheet" type="text/css" href="index.css" />
+</head>
+<body>
+<!--g-doc S-->
+<div class="g-doc">
+<!-- 仪表图 -->
+<canvas id="j-dashboard"></canvas>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 环形 -->
+<canvas id="j-round-config"></canvas>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 折线图 -->
+<canvas id="j-chart-line"></canvas>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 区间图 -->
+<div class="price-interval" id="j-price-interval">
+  <p class="price-line">
+    <span class="J_line"><em class="state">超级省</em><em class="price J_price">1万</em><i class="scale"></i></span>
+    <span class="J_line"><em class="state">很省</em><em class="price J_price">2万</em><i class="scale"></i></span>
+    <span class="J_line"><em class="state">略低</em><em class="price J_price">3万</em><i class="scale"></i></span>
+    <span class="J_line"><em class="state">适中</em><em class="price J_price">4万</em><i class="scale"></i></span>
+    <span class="J_line"><em class="state">偏高</em><em class="price J_price">5万</em><i class="scale"></i></span>
+    <span class="J_line"><em class="state">很贵</em></span>
+  </p>
+  <p class="price-line-cur"></p>
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+<!-- 区间横向柱形图 -->
+<div class="chart-horizontal" id="j-chart-horizontal">
+    <div class="chart-bg">
+      <ul class="clearfix">
+        <li><i class="J_xAxis"></i></li>
+        <li><i class="J_xAxis"></i></li>
+        <li><i class="J_xAxis"></i></li>
+        <li><i class="J_xAxis"></i></li>
+        <li><i class="J_xAxis"></i></li>
+      </ul>
+    </div>
+
+    <div class="chart-val">
+      <ul class="clearfix">
+        <li class="clearfix">
+          <i class="name J_yAxis"></i>
+          <p class="val">
+            <em class="percent">
+              <span class="J_perTxt"></span>
+            </em>
+          </p>
+        </li>
+        <li class="clearfix">
+          <i class="name J_yAxis"></i>
+          <p class="val">
+            <em class="percent">
+              <span class="J_perTxt"></span>
+            </em>
+          </p>
+        </li>
+        <li class="clearfix">
+          <i class="name J_yAxis"></i>
+          <p class="val">
+            <em class="percent">
+              <span class="J_perTxt"></span>
+            </em>
+          </p>
+        </li>
+        <li class="clearfix">
+          <i class="name J_yAxis"></i>
+          <p class="val">
+            <em class="percent">
+              <span class="J_perTxt"></span>
+            </em>
+          </p>
+        </li>
+        <li class="clearfix">
+          <i class="name J_yAxis"></i>
+          <p class="val">
+            <em class="percent">
+              <span class="J_perTxt"></span>
+            </em>
+          </p>
+        </li>
+      </ul>
+    </div>
+
+</div>
+
+<br>
+<br>
+<br>
+<br>
+
+
+
+
+
+</div>
+<!--g-doc E-->
+
+<!--js-->
+<script src="chartUtil.js"></script>
+<script>
+// 绘制仪表图
+chartUtil.drawDashboard({
+  id: 'j-dashboard',
+  data: {
+    width: 236, // 宽
+    height: 141, // 高
+    lineWidth: 16, // 边框宽
+    max: 100, // 满分
+    cur: 88, // 当前值
+    per: 88, // 占比,
+    stateText: '强烈推荐',
+    state: 1 // 1: 强烈推荐,2: 值得推荐, 3: 一般推荐, 4:不太推荐
+  }
+})
+
+// 圆形占比
+chartUtil.drawRound({
+  id: 'j-round-config',
+  data: {
+    name: '配置',
+    width: 66, // 宽
+    height: 66, // 高
+    lineWidth: 3, // 边框宽
+    max: 100, // 满分
+    // cur: 88, // 当前值
+    per: 88, // 占比
+    stateText: '优秀',
+    state: 1 // 1:优秀 2: 良好, 3: 一般, 4:较差
+  }
+})
+
+// 区间横向柱形图
+chartUtil.drawColumChartH({
+  id: 'j-chart-horizontal',
+  data: [{
+    "startX": 8.88, // 起始价格
+    "endX":19.48, // 结束价格
+    "Y": "名称一", // 车系名
+    "isCur": "0" // 是否高亮 0：不高亮，1:高亮
+  },{
+    "startX": 10.88,
+    "endX":20,
+    "Y":"名称一" ,
+    "isCur": "1"
+  },{
+    "startX": 9.88,
+    "endX":16.2,
+    "Y": "名称一" ,
+    "isCur": "0"
+  },{
+    "startX": 10,
+    "endX":14,
+    "Y": "名称一" ,
+    "isCur": "0"
+  },{
+    "startX": 7.6,
+    "endX":12,
+    "Y": "名称一" ,
+    "isCur": "0"
+  }]
+})
+
+// 画区间柱形图
+chartUtil.drawIntervalChart({
+  id: 'j-price-interval',
+  data: {
+    num: 5, // 区间数
+    curMin: 5, // 当前最小值
+    curMax: 8, // 当前最大值
+    min: 0, // 最小值
+    max: 10 // 最大值
+  }
+})
+
+// 画折线图
+chartUtil.drawLineChart({
+  id: 'j-chart-line',
+  data: {
+    width: 351,
+    height: 212,
+    xAxis: ['1年', '2年', '3年', '4年', '5年'], //X 轴文案
+    yAxis: ['100%', '80%', '60%', '40%', '30%', '0%'], // y轴文案
+    yData: ['80%', '60%', '40%', '20%', '30%'] // y轴数据
+  }
+})
+
+
+</script>
+</body>
+</html>
